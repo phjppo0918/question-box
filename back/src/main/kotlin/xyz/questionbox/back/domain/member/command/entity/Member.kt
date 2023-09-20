@@ -4,8 +4,6 @@ import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import lombok.AccessLevel
 import lombok.NoArgsConstructor
-import lombok.experimental.FieldDefaults
-
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 class Member(
