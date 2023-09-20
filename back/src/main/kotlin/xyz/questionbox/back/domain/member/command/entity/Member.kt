@@ -1,5 +1,6 @@
 package xyz.questionbox.back.domain.member.command.entity
 
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import lombok.AccessLevel
@@ -8,9 +9,9 @@ import lombok.NoArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 class Member(
     @Id val email: String,
-    val name: String,
-    var nickname: String,
-    var password: String,
+    @Column(nullable = false) val name: String,
+    @Column(nullable = false, unique = true) var nickname: String,
+    @Column(nullable = false) var password: String,
     val role : Set<Role> = setOf(Role.USER)
 ) {
     fun updatePassword(newPassword: String) {

@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
+import axios from "axios";
+import React, { useState } from "react";
+import { Form, Button, Container, Row, Col, Alert } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
-    school: '',
-    studentNumber: '',
-    schoolEmail: '',
-    name: '',
-    password: '',
-    confirmPassword: '', 
+    email: "",
+    name: "",
+    nickname: "",
+    password: "",
+    confirmPassword: "",
   });
 
   const handleChange = (e) => {
@@ -18,9 +19,9 @@ const SignUpForm = () => {
       [name]: value,
     });
   };
-  
-  const [passwordMatch, setPasswordMatch] = useState(true);
 
+  const [passwordMatch, setPasswordMatch] = useState(true);
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -29,10 +30,13 @@ const SignUpForm = () => {
       setPasswordMatch(false);
       return;
     }
-
     // 여기서 폼 데이터를 처리하는 코드를 작성합니다.
     // formData 객체에 사용자가 입력한 값이 저장되어 있습니다.
-    console.log(formData);
+    axios({
+      url: "/members",
+      method: "post",
+      data: formData,
+    }).then((response) => navigate.navigate("/"));
 
     // 비밀번호 일치 여부 초기화
     setPasswordMatch(true);
@@ -43,34 +47,12 @@ const SignUpForm = () => {
       <Row className="justify-content-center">
         <Col md={6}>
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="school">
-              <Form.Label>학교</Form.Label>
-              <Form.Control
-                type="text"
-                name="school"
-                value={formData.school}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group controlId="studentNumber">
-              <Form.Label>학번</Form.Label>
-              <Form.Control
-                type="text"
-                name="studentNumber"
-                value={formData.studentNumber}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group controlId="schoolEmail">
+            <Form.Group controlId="email">
               <Form.Label>학교 이메일</Form.Label>
               <Form.Control
                 type="email"
-                name="schoolEmail"
-                value={formData.schoolEmail}
+                name="email"
+                value={formData.email}
                 onChange={handleChange}
                 required
               />
@@ -82,6 +64,17 @@ const SignUpForm = () => {
                 type="text"
                 name="name"
                 value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group controlId="nickname">
+              <Form.Label>닉네임</Form.Label>
+              <Form.Control
+                type="text"
+                name="nickname"
+                value={formData.nickname}
                 onChange={handleChange}
                 required
               />
@@ -111,7 +104,9 @@ const SignUpForm = () => {
 
             {/* 비밀번호 일치 여부 메시지 */}
             {!passwordMatch && (
-              <Alert variant="danger">비밀번호와 비밀번호 확인이 일치하지 않습니다.</Alert>
+              <Alert variant="danger">
+                비밀번호와 비밀번호 확인이 일치하지 않습니다.
+              </Alert>
             )}
 
             <Button variant="primary" type="submit">

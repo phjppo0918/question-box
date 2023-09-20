@@ -1,10 +1,7 @@
 package xyz.questionbox.back.domain.member.command
 
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseStatus
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import xyz.questionbox.back.domain.member.command.dto.CreateMemberReq
 
 
@@ -15,7 +12,7 @@ class MemberCtrl(
 ) {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(req : CreateMemberReq) {
+    fun create(@RequestBody req : CreateMemberReq) {
         memberSvc.signup(req)
     }
 }
