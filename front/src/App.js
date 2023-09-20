@@ -1,13 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
-import LoginForm from './LoginForm';
-import Contact from './Contact';
-import Home from './Home';
-import About from './About';
-import Menu from './Menu';
-import SignUpForm from './SignUpForm';
-import { BrowserRouter, Route, Routes } from "react-router-dom"; 
-import 'bootstrap/dist/css/bootstrap.min.css'
+import logo from "./logo.svg";
+import "./App.css";
+import LoginForm from "./LoginForm";
+import Contact from "./Contact";
+import Home from "./Home";
+import About from "./About";
+import Menu from "./Menu";
+import SignUpForm from "./SignUpForm";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
 axios.defaults.baseURL = "http://api";

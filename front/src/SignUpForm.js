@@ -36,7 +36,7 @@ const SignUpForm = () => {
       url: "/members",
       method: "post",
       data: formData,
-    }).then((response) => navigate.navigate("/"));
+    }).then((response) => navigate("/login"));
 
     // 비밀번호 일치 여부 초기화
     setPasswordMatch(true);
