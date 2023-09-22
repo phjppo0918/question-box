@@ -8,6 +8,18 @@ spring:
     username: ${MYSQL_USER}
     password: ${MYSQL_PASSWORD}
 
+  mail:
+    host: smtp.gmail.com
+    port: 587 # 2
+    username: ${GMAIL_ID}
+    password: ${GMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
   jpa:
     show-sql: true
     hibernate:
