@@ -1,5 +1,7 @@
 package xyz.questionbox.back.global.security
 
+
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -11,7 +13,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig {
+class SecurityConfig(
+    @Value("\${spring.security.allow-origins}") private val originPattern: List<String>
+) {
 
     @Bean
     fun configure(http: HttpSecurity): SecurityFilterChain {
@@ -25,15 +29,15 @@ class SecurityConfig {
     }
 
     @Bean
-    fun corsConfig() : CorsConfigurationSource {
-        val corsConfiguration : CorsConfiguration = CorsConfiguration()
+    fun corsConfig(): CorsConfigurationSource {
+        val corsConfiguration: CorsConfiguration = CorsConfiguration()
 
-        corsConfiguration.setAllowedOriginPatterns(listOf("http://localhost:[80,3000]"))
+        corsConfiguration.setAllowedOriginPatterns(originPattern)
         corsConfiguration.addAllowedHeader("*")
         corsConfiguration.addAllowedMethod("*")
         corsConfiguration.allowCredentials = true
 
-        val source : UrlBasedCorsConfigurationSource = UrlBasedCorsConfigurationSource()
+        val source: UrlBasedCorsConfigurationSource = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", corsConfiguration)
         return source
     }

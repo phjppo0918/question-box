@@ -10,7 +10,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
-axios.defaults.baseURL = process.env.APPLICATION_BASE_URL;
+axios.defaults.baseURL = process.env.REACT_APP_APPLICATION_BASE_URL;
 axios.defaults.withCredentials = true;
 
 function App() {

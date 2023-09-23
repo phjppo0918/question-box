@@ -7,10 +7,12 @@ spring:
     url: ${MYSQL_URL}
     username: ${MYSQL_USER}
     password: ${MYSQL_PASSWORD}
+  security:
+    allow-origins: ${ALLOW_ORIGINS}
 
   mail:
     host: smtp.gmail.com
-    port: 587 # 2
+    port: 587
     username: ${GMAIL_ID}
     password: ${GMAIL_PASSWORD}
     properties:

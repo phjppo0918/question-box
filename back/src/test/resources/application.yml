@@ -7,7 +7,21 @@ spring:
     url: jdbc:h2:mem:test
     username: sa
     password:
+  security:
+    allow-origins: "http://localhost:3000"
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: "asdfasdf"
+    password: "asdfasdf"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
   jpa:
     show-sql: true
     hibernate:
