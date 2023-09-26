@@ -20,7 +20,6 @@ class MemberSvc(
         memberRepo.save(newMember);
     }
 
-    @Transactional
     fun changePassword(email: String, req: ChangePasswordReq) =
         getEntity(email).updatePassword(req.beforePassword, req.afterPassword)
 

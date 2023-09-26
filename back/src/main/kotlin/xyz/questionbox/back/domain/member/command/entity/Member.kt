@@ -27,5 +27,6 @@ class Member(
         this.nickname = newNickname
     }
 
-
+    val univDomain: String
+        get() = email.split("@")[1]
 }

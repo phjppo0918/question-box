@@ -23,6 +23,11 @@ class SecurityConfig(
             .authorizeHttpRequests {
                 it.anyRequest().permitAll()
             }
+            .formLogin {
+                it.loginProcessingUrl("/login")
+                it.usernameParameter("email")
+                it.passwordParameter("password")
+            }
             .cors { it.configurationSource(corsConfig()) }
             .csrf { it.disable() }
             .build()
@@ -30,14 +35,14 @@ class SecurityConfig(
 
     @Bean
     fun corsConfig(): CorsConfigurationSource {
-        val corsConfiguration: CorsConfiguration = CorsConfiguration()
+        val corsConfiguration = CorsConfiguration()
 
         corsConfiguration.setAllowedOriginPatterns(originPattern)
         corsConfiguration.addAllowedHeader("*")
         corsConfiguration.addAllowedMethod("*")
         corsConfiguration.allowCredentials = true
 
-        val source: UrlBasedCorsConfigurationSource = UrlBasedCorsConfigurationSource()
+        val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", corsConfiguration)
         return source
     }
