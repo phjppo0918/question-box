@@ -1,8 +1,9 @@
-package xyz.questionbox.back.domain.member.command
+package xyz.questionbox.back.domain.member.command.svc
 
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.security.crypto.password.PasswordEncoder
+import xyz.questionbox.back.domain.member.command.MemberRepo
 import xyz.questionbox.back.domain.member.command.dto.ChangePasswordReq
 import xyz.questionbox.back.domain.member.command.dto.CreateMemberReq
 import xyz.questionbox.back.domain.member.command.entity.Member

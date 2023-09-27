@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.*
 import xyz.questionbox.back.domain.member.command.dto.ChangePasswordReq
 import xyz.questionbox.back.domain.member.command.dto.CreateMemberReq
+import xyz.questionbox.back.domain.member.command.svc.MemberSvc
 
 
 @RestController

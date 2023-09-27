@@ -1,4 +1,4 @@
-package xyz.questionbox.back.domain.member.command
+package xyz.questionbox.back.domain.member.command.svc
 
 import jakarta.mail.internet.MimeMessage
 import org.springframework.mail.javamail.JavaMailSender
