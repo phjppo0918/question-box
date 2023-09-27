@@ -1,6 +1,5 @@
 package xyz.questionbox.back.domain.member.query
 
-import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 import xyz.questionbox.back.domain.member.command.entity.Member
 import xyz.questionbox.back.domain.member.query.dto.MemberAuthRes
@@ -14,6 +13,6 @@ class MemberDao(private val memberQueryRepo: MemberQueryRepo) {
     fun getAuth(email: String): MemberAuthRes =
         MemberAuthRes(getEntity(email))
 
-    private fun getEntity(id: String) : Member =
+    private fun getEntity(id: String): Member =
         memberQueryRepo.findByEmail(id)
 }

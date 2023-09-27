@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("univ")
 class UnivCtrl(
-    private val univSvc : UnivSvc,
+    private val univSvc: UnivSvc,
 ) {
 }
