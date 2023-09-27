@@ -1,6 +1,7 @@
 package xyz.questionbox.back.global.security
 
 
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
@@ -29,6 +31,7 @@ class SecurityConfig(
                 it.loginProcessingUrl("/login")
                 it.usernameParameter("email")
                 it.passwordParameter("password")
+                it.successHandler(authenticationSuccessHandler())
             }
             .cors { it.configurationSource(corsConfig()) }
             .csrf { it.disable() }
@@ -48,6 +51,11 @@ class SecurityConfig(
         source.registerCorsConfiguration("/**", corsConfiguration)
         return source
     }
+
+    @Bean
+    fun authenticationSuccessHandler ()  =
+        AuthenticationSuccessHandler {_, res, _ ->
+            res.status = HttpServletResponse.SC_OK}
 
     @Bean
     fun passwordEncoder(): PasswordEncoder {
