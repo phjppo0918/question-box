@@ -1,19 +1,13 @@
 package xyz.questionbox.back.global.security
 
-
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
 import xyz.questionbox.back.domain.member.query.MemberDao
 
 @Service
-
 class UserDetailServiceImpl(
     private val memberDao: MemberDao
 ) : UserDetailsService {
-    override fun loadUserByUsername(username: String?): UserDetails {
-        print(username)
-        val name = username ?: throw IllegalArgumentException()
-        return MemberAuth(memberDao.getAuth(name))
-    }
+    override fun loadUserByUsername(username: String?) =
+        MemberAuth(memberDao.getAuth(username!!))
 }

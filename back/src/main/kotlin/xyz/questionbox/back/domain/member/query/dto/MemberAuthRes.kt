@@ -1,7 +1,6 @@
 package xyz.questionbox.back.domain.member.query.dto
 
 import xyz.questionbox.back.domain.member.command.entity.Member
-import xyz.questionbox.back.domain.member.command.entity.Role
 
 class MemberAuthRes (
     val email: String,

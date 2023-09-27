@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import xyz.questionbox.back.domain.member.query.dto.MemberAuthRes
 
 class MemberAuth(
-    val auth: MemberAuthRes
+    private val auth: MemberAuthRes
 ) : UserDetails {
     override fun getAuthorities() =
         auth.role.map { SimpleGrantedAuthority(it) }.toMutableList()
