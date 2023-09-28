@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
-import { Form, Button, Container } from 'react-bootstrap';
+import React, { useState } from "react";
+import { Form, Button, Container } from "react-bootstrap";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -17,9 +19,17 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // 여기서 로그인 로직을 처리하거나, 폼 데이터를 서버로 전송합니다.
-    console.log('Email:', formData.email);
-    console.log('Password:', formData.password);
+    const multiPart = new FormData();
+    multiPart.append("email", formData.email);
+    multiPart.append("password", formData.password);
+    axios({
+      method: "post",
+      url: "/login",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      data: multiPart,
+    }).then((response) => navigate("/login"));
   };
 
   return (

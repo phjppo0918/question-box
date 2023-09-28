@@ -25,8 +25,8 @@ const SignUpForm = () => {
     // 여기서 폼 데이터를 처리하는 코드를 작성합니다.
     // formData 객체에 사용자가 입력한 값이 저장되어 있습니다.
     axios({
-      url: "/members",
       method: "post",
+      url: "/members",
       data: formData,
     }).then((response) => navigate("/login"));
   };
