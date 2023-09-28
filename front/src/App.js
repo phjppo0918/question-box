@@ -1,5 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
+import MyPage from './MyPage';
 import LoginForm from "./LoginForm";
 import Contact from "./Contact";
 import Home from "./Home";
@@ -30,6 +31,8 @@ function App() {
             <Route path="/login" element={<LoginForm />} />
             {/* 회원가입 페이지 */}
             <Route path="/signup" element={<SignUpForm />} />
+
+            <Route path="/mypage" element={<MyPage />} />
           </Routes>
         </div>
       </div>
