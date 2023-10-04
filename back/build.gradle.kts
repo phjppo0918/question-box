@@ -42,12 +42,12 @@ dependencies {
     implementation("com.github.maricn:logback-slack-appender:1.6.1")
     kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
     compileOnly("org.projectlombok:lombok")
-    runtimeOnly("com.h2database:h2")
     runtimeOnly("com.mysql:mysql-connector-j")
     annotationProcessor("org.projectlombok:lombok")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
+    testRuntimeOnly("com.h2database:h2")
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:mysql")
@@ -119,8 +119,9 @@ tasks.jacocoTestCoverageVerification {
             }
 
             excludes = listOf(
-//                    "*.test.*",
-//                    "*.Kotlin*"
+                "**.*Application*",
+                "**.dto.*Req",
+                "**.dto.*Res",
             )
         }
     }
