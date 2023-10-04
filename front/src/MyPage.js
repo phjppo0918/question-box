@@ -7,7 +7,7 @@ function MyPage() {
   useEffect(() => {
     // 서버에서 데이터 가져오기
     axios
-      .get("/api/members/me") // 실제 엔드포인트에 맞게 수정
+      .get("/members/me")
       .then((response) => {
         setUserData(response.data);
       })
