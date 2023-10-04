@@ -33,4 +33,8 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
+logging:
+  slack:
+    webhook-uri: ${SLACK_URL}
+  config: classpath:logback-spring.xml
 
