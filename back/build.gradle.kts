@@ -3,11 +3,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "3.1.3"
     id("io.spring.dependency-management") version "1.1.2"
+    id("org.jetbrains.kotlinx.kover") version "0.7.3"
     kotlin("jvm") version "1.8.22"
     kotlin("plugin.spring") version "1.8.22"
     kotlin("plugin.jpa") version "1.8.22"
     kotlin("kapt") version "1.8.22"
-    jacoco
 }
 group = "xyz.question-box"
 version = "0.0.1-SNAPSHOT"
@@ -67,74 +67,58 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-tasks.test {
-    extensions.configure(JacocoTaskExtension::class) {
-        destinationFile = file("$buildDir/jacoco/jacoco.exec")
+buildscript {
+    repositories {
+        mavenCentral()
     }
 
-    finalizedBy("jacocoTestReport")
-}
-
-jacoco {
-    toolVersion = "0.8.7"
-}
-
-tasks.jacocoTestReport {
-    reports {
-        // 원하는 리포트를 켜고 끌 수 있다.
-        html.required = true
-        xml.required = false
-        csv.required = false
-
+    dependencies {
+        classpath("org.jetbrains.kotlinx:kover-gradle-plugin:0.7.3")
     }
-
-    finalizedBy("jacocoTestCoverageVerification")
 }
 
-tasks.jacocoTestCoverageVerification {
-    violationRules {
+kover {
+    excludeJavaCode()
+}
+
+
+koverReport {
+    filters {
+        includes {
+            classes("xyz.questionbox.back.*")
+        }
+        excludes {
+
+        }
+    }
+    verify {
         rule {
-            limit {
-                minimum = "0.90".toBigDecimal()
+            isEnabled = true
+            entity = kotlinx.kover.gradle.plugin.dsl.GroupingEntityType.APPLICATION
+            bound {
+                minValue = 90
+                metric = kotlinx.kover.gradle.plugin.dsl.MetricType.INSTRUCTION
+                aggregation = kotlinx.kover.gradle.plugin.dsl.AggregationType.COVERED_PERCENTAGE
+            }
+        }
+        rule {
+            isEnabled = true
+            entity = kotlinx.kover.gradle.plugin.dsl.GroupingEntityType.CLASS
+            bound {
+                minValue = 90
+                metric = kotlinx.kover.gradle.plugin.dsl.MetricType.BRANCH
+                aggregation = kotlinx.kover.gradle.plugin.dsl.AggregationType.COVERED_PERCENTAGE
             }
         }
 
         rule {
-            enabled = true
-            element = "CLASS"
-            limit {
-                counter = "BRANCH"
-                value = "COVEREDRATIO"
-                minimum = "0.90".toBigDecimal()
+            isEnabled = true
+            entity = kotlinx.kover.gradle.plugin.dsl.GroupingEntityType.CLASS
+            bound {
+                minValue = 90
+                metric = kotlinx.kover.gradle.plugin.dsl.MetricType.LINE
+                aggregation = kotlinx.kover.gradle.plugin.dsl.AggregationType.COVERED_PERCENTAGE
             }
-            limit {
-                counter = "LINE"
-                value = "COVEREDRATIO"
-                minimum = "0.80".toBigDecimal()
-            }
-            limit {
-                counter = "LINE"
-                value = "TOTALCOUNT"
-                maximum = "200".toBigDecimal()
-            }
-
-            excludes = listOf(
-                "**.*Application*",
-                "**.dto.*Req",
-                "**.dto.*Res",
-            )
         }
     }
-}
-
-val testCoverage by tasks.registering {
-    group = "verification"
-    description = "Runs the unit tests with coverage"
-
-    dependsOn(":test",
-        ":jacocoTestReport",
-        ":jacocoTestCoverageVerification")
-
-    tasks["jacocoTestReport"].mustRunAfter(tasks["test"])
-    tasks["jacocoTestCoverageVerification"].mustRunAfter(tasks["jacocoTestReport"])
 }
