@@ -7,6 +7,7 @@ plugins {
     kotlin("plugin.spring") version "1.8.22"
     kotlin("plugin.jpa") version "1.8.22"
     kotlin("kapt") version "1.8.22"
+    jacoco
 }
 group = "xyz.question-box"
 version = "0.0.1-SNAPSHOT"
@@ -26,6 +27,7 @@ repositories {
 }
 
 extra["snippetsDir"] = file("build/generated-snippets")
+
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -63,4 +65,75 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.test {
+    extensions.configure(JacocoTaskExtension::class) {
+        destinationFile = file("$buildDir/jacoco/jacoco.exec")
+    }
+
+    finalizedBy("jacocoTestReport")
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+tasks.jacocoTestReport {
+    reports {
+        // 원하는 리포트를 켜고 끌 수 있다.
+        html.required = true
+        xml.required = false
+        csv.required = false
+
+    }
+
+    finalizedBy("jacocoTestCoverageVerification")
+}
+
+tasks.jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = "0.90".toBigDecimal()
+            }
+        }
+
+        rule {
+            enabled = true
+            element = "CLASS"
+            limit {
+                counter = "BRANCH"
+                value = "COVEREDRATIO"
+                minimum = "0.90".toBigDecimal()
+            }
+            limit {
+                counter = "LINE"
+                value = "COVEREDRATIO"
+                minimum = "0.80".toBigDecimal()
+            }
+            limit {
+                counter = "LINE"
+                value = "TOTALCOUNT"
+                maximum = "200".toBigDecimal()
+            }
+
+            excludes = listOf(
+//                    "*.test.*",
+//                    "*.Kotlin*"
+            )
+        }
+    }
+}
+
+val testCoverage by tasks.registering {
+    group = "verification"
+    description = "Runs the unit tests with coverage"
+
+    dependsOn(":test",
+        ":jacocoTestReport",
+        ":jacocoTestCoverageVerification")
+
+    tasks["jacocoTestReport"].mustRunAfter(tasks["test"])
+    tasks["jacocoTestCoverageVerification"].mustRunAfter(tasks["jacocoTestReport"])
 }
