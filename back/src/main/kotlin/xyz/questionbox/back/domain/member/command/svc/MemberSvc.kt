@@ -26,7 +26,7 @@ class MemberSvc(
     }
 
     fun changePassword(email: String, req: ChangePasswordReq) =
-        getEntity(email).updatePassword(req.beforePassword, req.afterPassword)
+        getEntity(email).changePassword(req.beforePassword, req.afterPassword)
 
     private fun generatePassword() : Password {
         val rawPassword = UUID.randomUUID().toString().substring(0, 8)

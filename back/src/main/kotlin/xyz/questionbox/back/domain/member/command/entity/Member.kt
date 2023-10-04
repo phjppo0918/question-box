@@ -16,14 +16,14 @@ class Member(
     @Column(nullable = false) var password: String,
     val role: Set<Role> = setOf(Role.USER)
 ) {
-    fun updatePassword(beforePassword: String, newPassword: String) {
+    fun changePassword(beforePassword: String, newPassword: String) {
         if (!this.password.equals(beforePassword)) {
             throw NotMatchPasswordException()
         }
         this.password = newPassword
     }
 
-    fun updateNickname(newNickname: String) {
+    fun changeNickname(newNickname: String) {
         this.nickname = newNickname
     }
 
