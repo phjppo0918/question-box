@@ -3,28 +3,32 @@ package xyz.questionbox.back.domain.member.command.entity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
-import lombok.AccessLevel
-import lombok.NoArgsConstructor
+import org.springframework.security.crypto.password.PasswordEncoder
 import xyz.questionbox.back.domain.member.command.exception.NotMatchPasswordException
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 class Member(
     @Id val email: String,
     @Column(nullable = false) val name: String,
     @Column(nullable = false, unique = true) var nickname: String,
     @Column(nullable = false) var password: String,
-    val role: Set<Role> = setOf(Role.USER)
+    passwordEncoder: PasswordEncoder,
 ) {
-    fun changePassword(beforePassword: String, newPassword: String) {
-        if (!this.password.equals(beforePassword)) {
+    val role: Set<Role> = setOf(Role.USER)
+
+    init {
+        password = passwordEncoder.encode(password)
+    }
+
+    fun changePassword(beforePassword: String, newPassword: String, passwordEncoder: PasswordEncoder) {
+        if (!passwordEncoder.matches(beforePassword, this.password)) {
             throw NotMatchPasswordException()
         }
-        this.password = newPassword
+        password = passwordEncoder.encode(newPassword)
     }
 
     fun changeNickname(newNickname: String) {
-        this.nickname = newNickname
+        nickname = newNickname
     }
 
     val univDomain: String
